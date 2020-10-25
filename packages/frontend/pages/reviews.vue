@@ -2,9 +2,13 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title">coffee-project-frontend</h1>
+      <template v-if="result && result.reviews">
+        <h1 v-for="review in result.reviews" :key="review.id">
+          {{ review.roaster }}
+        </h1>
+      </template>
       <div class="links">
-        <nuxt-link to="/reviews" class="button--green">Reviews</nuxt-link>
+        <nuxt-link to="/" class="button--green"> Home </nuxt-link>
         <a
           href="https://github.com/nuxt/nuxt.js"
           target="_blank"
@@ -19,20 +23,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import gql from 'graphql-tag'
+import { defineComponent } from '@nuxtjs/composition-api'
+import { useGetReviewsQuery } from '~/apollo/generated/types'
 
-export default Vue.extend({
-  apollo: {
-    reviews: {
-      query: gql`
-        query reviewlist {
-          reviews {
-            name
-          }
-        }
-      `,
-    },
+export default defineComponent({
+  setup() {
+    const { result } = useGetReviewsQuery()
+
+    return {
+      result,
+    }
   },
 })
 </script>

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "name": "Review"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "roaster": {
+      "type": "richtext",
+      "required": true
+    },
+    "origin": {
+      "type": "string"
+    },
+    "brewing": {
+      "type": "string",
+      "required": true
+    },
+    "stars": {
+      "required": true,
+      "default": 0,
+      "type": "integer",
+      "max": 5,
+      "min": 0
+    },
+    "comment": {
+      "type": "richtext"
+    }
+  }
+}

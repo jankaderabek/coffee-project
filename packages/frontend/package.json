@@ -10,7 +10,11 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --ignore-path .gitignore",
     "lint": "npm run lint:js && npm run lint:style",
-    "test": "jest"
+    "test": "jest",
+    "generate-types:watch": "graphql-codegen --watch",
+    "generate-types": "graphql-codegen",
+    "prebuild": "npm run generate-types",
+    "predev": "npm run generate-types"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint",
@@ -23,12 +27,21 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxtjs/apollo": "^4.0.1-rc.4",
+    "@nuxtjs/composition-api": "^0.13.5",
+    "@vue/apollo-composable": "4.0.0-alpha.10",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
+    "graphql-tag": "^2.11.0",
     "nuxt": "^2.14.6"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.18.0",
+    "@graphql-codegen/typescript": "^1.17.11",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.18.0",
+    "@graphql-codegen/typescript-operations": "^1.17.8",
+    "@graphql-codegen/typescript-vue-apollo": "^2.1.1",
     "@nuxt/types": "^2.14.6",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/eslint-config": "^3.1.0",

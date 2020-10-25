@@ -1,0 +1,9 @@
+overwrite: true
+schema: "http://localhost:1337/graphql"
+documents: "apollo/*.graphql"
+generates:
+  apollo/generated/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-vue-apollo

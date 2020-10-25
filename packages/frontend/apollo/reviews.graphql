@@ -1,0 +1,6 @@
+query getReviews {
+  reviews {
+    id,
+    roaster
+  }
+}
