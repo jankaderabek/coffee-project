@@ -4,3 +4,25 @@ query getReviews {
     roaster
   }
 }
+
+fragment CoffeeDetail on Coffee {
+  roaster,
+  title,
+  characteristics,
+  process,
+  country
+}
+
+query getCoffeeList {
+  coffees {
+    ...CoffeeDetail
+  }
+}
+
+mutation sendCoffee ($input: createCoffeeInput) {
+  createCoffee (input: $input) {
+    coffee {
+      ...CoffeeDetail
+    }
+  }
+}

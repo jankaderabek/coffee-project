@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coffees",
+  "info": {
+    "name": "Coffee"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "populateCreatorFields": false,
+    "privateAttributes": ["created_by", "updated_by"]
+  },
+  "attributes": {
+    "roaster": {
+      "type": "string",
+      "required": true,
+      "minLength": 1,
+      "unique": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string"
+    },
+    "process": {
+      "type": "string"
+    },
+    "characteristics": {
+      "type": "string"
+    }
+  }
+}
