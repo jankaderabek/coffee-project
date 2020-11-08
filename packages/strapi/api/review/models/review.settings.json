@@ -2,24 +2,15 @@
   "kind": "collectionType",
   "collectionName": "reviews",
   "info": {
-    "name": "Review"
+    "name": "Review",
+    "description": ""
   },
   "options": {
     "increments": true,
-    "timestamps": true
+    "timestamps": true,
+    "draftAndPublish": false
   },
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "roaster": {
-      "type": "richtext",
-      "required": true
-    },
-    "origin": {
-      "type": "string"
-    },
     "brewing": {
       "type": "string",
       "required": true
@@ -33,6 +24,10 @@
     },
     "comment": {
       "type": "richtext"
+    },
+    "coffee": {
+      "model": "coffee",
+      "via": "reviews"
     }
   }
 }

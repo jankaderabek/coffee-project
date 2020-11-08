@@ -5,6 +5,23 @@
     </b-row>
 
     <b-row>
+      <Multiselect
+        v-model="createdCoffee"
+        :options="coffees"
+        label="roaster"
+        track-by="id"
+      >
+        <template slot="option" slot-scope="{ option }">
+          <div>
+            <span>{{ option.roaster }}</span
+            ><br />
+            <span class="small">{{ option.title }}</span>
+          </div>
+        </template>
+      </Multiselect>
+    </b-row>
+
+    <b-row>
       <b-form v-if="!createdCoffee">
         <b-form-group label="Pražírna">
           <b-form-input v-model="newCoffee.roaster"></b-form-input>
@@ -29,7 +46,10 @@
         <b-button @click="saveNewCoffee">Přidat novou kávu</b-button>
       </b-form>
 
-      <div v-else-if="sendCoffeeLoading" class="d-flex justify-content-center mb-3">
+      <div
+        v-else-if="sendCoffeeLoading"
+        class="d-flex justify-content-center mb-3"
+      >
         <b-spinner label="Loading..."></b-spinner>
       </div>
 
@@ -60,35 +80,103 @@
         </b-row>
       </b-col>
     </b-row>
+
+    <b-row v-if="createdCoffee">
+      <b-form>
+        <b-form-group label="Typ přípravy">
+          <b-form-input v-model="newReview.brewing"></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Počet hvězdiček">
+          <b-form-rating
+            v-model="newReview.stars"
+            variant="warning"
+            class="mb-2"
+            no-border
+          ></b-form-rating>
+        </b-form-group>
+
+        <b-form-group label="Hodnocení">
+          <b-form-textarea
+            v-model="newReview.comment"
+            type="number"
+          ></b-form-textarea>
+        </b-form-group>
+
+        <b-button @click="saveNewReview">Přidat hodnocení</b-button>
+      </b-form>
+    </b-row>
   </section>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@nuxtjs/composition-api'
-import { CoffeeInput, useSendCoffeeMutation, CoffeeDetailFragment } from '~/apollo/generated/types'
 import Multiselect from 'vue-multiselect'
+import {
+  CoffeeInput,
+  useSendCoffeeMutation,
+  CreatedCoffeeDetailFragment,
+  useGetCoffeeListQuery,
+  EditableTextReviewDataFragment,
+  useSendReviewMutation,
+} from '~/apollo/generated/types'
 
 export default defineComponent({
+  name: 'AddReviewPage',
   components: {
-    Multiselect
+    Multiselect,
   },
-  setup() {
-    const newCoffee = reactive<Omit<Required<CoffeeInput>, 'created_by' | 'updated_by'>>({
+  setup(_props, { root }) {
+    const newCoffee = reactive<
+      Omit<Required<CoffeeInput>, 'reviews' | 'created_by' | 'updated_by'>
+    >({
       roaster: '',
       title: '',
       country: '',
       process: '',
       characteristics: '',
     })
-    const createdCoffee = ref<CoffeeDetailFragment | null>(null)
-    const { mutate: createCoffee, loading: sendCoffeeLoading, error: sendCoffeeError} = useSendCoffeeMutation()
+    const createdCoffee = ref<CreatedCoffeeDetailFragment | null>(null)
+    const {
+      mutate: createCoffee,
+      loading: sendCoffeeLoading,
+      error: sendCoffeeError,
+    } = useSendCoffeeMutation()
 
     const saveNewCoffee = async () => {
       try {
-        const result = await createCoffee({input: {data: newCoffee}})
+        const result = await createCoffee({ input: { data: newCoffee } })
         createdCoffee.value = result.data?.createCoffee?.coffee ?? null
-      } catch (e) {
+      } catch (e) {}
+    }
+
+    const { result } = useGetCoffeeListQuery()
+
+    const newReview = reactive<EditableTextReviewDataFragment>({
+      brewing: '',
+      stars: 5,
+      comment: '',
+    })
+
+    const { mutate: sendNewReview } = useSendReviewMutation()
+
+    const saveNewReview = async () => {
+      if (createdCoffee.value === null) {
+        return
       }
+
+      try {
+        const result = await sendNewReview({
+          input: {
+            data: {
+              ...newReview,
+              coffee: createdCoffee.value.id,
+            },
+          },
+        })
+
+        root.$router.push(`/reviews/${result.data?.createReview?.review?.id}`)
+      } catch (e) {}
     }
 
     return {
@@ -96,7 +184,10 @@ export default defineComponent({
       saveNewCoffee,
       createdCoffee,
       sendCoffeeLoading,
-      sendCoffeeError
+      sendCoffeeError,
+      coffees: result.value?.coffees ?? [],
+      newReview,
+      saveNewReview,
     }
   },
 })

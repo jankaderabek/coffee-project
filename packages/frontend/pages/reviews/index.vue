@@ -3,14 +3,14 @@
     <b-card
       v-for="review in result.reviews"
       :key="review.id"
-      :header="review.roaster"
+      :header="review.coffee.title"
       header-tag="header"
-      footer="Card Footer"
-      footer-tag="footer"
-      title="Title"
+      class="mt-2"
     >
-      <b-card-text>Header and footers using props.</b-card-text>
-      <b-button href="#" variant="primary">Go somewhere</b-button>
+      <b-card-text>{{ review.comment }}</b-card-text>
+      <b-button :to="`/reviews/${review.id}`" variant="primary">
+        Detail
+      </b-button>
     </b-card>
   </b-card-group>
 </template>
@@ -29,3 +29,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.card {
+  min-width: 300px;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Logo/>
+    <Logo />
     <h1 class="title">coffee-project-frontend</h1>
     <div class="links">
       <nuxt-link to="/reviews" class="button--green">Reviews</nuxt-link>
@@ -26,7 +26,7 @@ export default Vue.extend({
       query: gql`
         query reviewlist {
           reviews {
-            name
+            comment
           }
         }
       `,

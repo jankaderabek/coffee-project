@@ -1,7 +1,16 @@
 query getReviews {
   reviews {
     id,
-    roaster
+    coffee {
+      title
+    },
+    comment
+  }
+}
+
+query getReview ($id: ID!) {
+  review (id: $id) {
+    ...ReviewData
   }
 }
 
@@ -13,8 +22,14 @@ fragment CoffeeDetail on Coffee {
   country
 }
 
+fragment CreatedCoffeeDetail on Coffee {
+  ...CoffeeDetail,
+  id
+}
+
 query getCoffeeList {
   coffees {
+    id,
     ...CoffeeDetail
   }
 }
@@ -22,7 +37,29 @@ query getCoffeeList {
 mutation sendCoffee ($input: createCoffeeInput) {
   createCoffee (input: $input) {
     coffee {
-      ...CoffeeDetail
+      ...CreatedCoffeeDetail
+    }
+  }
+}
+
+fragment EditableTextReviewData on Review {
+  brewing,
+  stars,
+  comment,
+}
+
+fragment ReviewData on Review {
+  ...EditableTextReviewData,
+  id
+}
+
+mutation sendReview ($input: createReviewInput) {
+  createReview (input: $input) {
+    review {
+      ...ReviewData
+      coffee {
+        id
+      }
     }
   }
 }

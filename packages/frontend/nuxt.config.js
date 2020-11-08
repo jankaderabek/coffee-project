@@ -17,10 +17,11 @@ export default {
   plugins: ['~/plugins/apollo'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
+  components: false,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
+    '@nuxtjs/composition-api',
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
@@ -31,7 +32,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxtjs/composition-api',
     '@nuxtjs/apollo',
   ],
 
@@ -41,6 +41,13 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: 'http://localhost:1337/graphql',
+      },
+    },
+  },
+  typescript: {
+    typeCheck: {
+      eslint: {
+        files: './**/*.{ts,js,vue}',
       },
     },
   },

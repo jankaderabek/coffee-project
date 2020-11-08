@@ -8,7 +8,10 @@
     "increments": true,
     "timestamps": true,
     "populateCreatorFields": false,
-    "privateAttributes": ["created_by", "updated_by"]
+    "privateAttributes": [
+      "created_by",
+      "updated_by"
+    ]
   },
   "attributes": {
     "roaster": {
@@ -29,6 +32,10 @@
     },
     "characteristics": {
       "type": "string"
+    },
+    "reviews": {
+      "via": "coffee",
+      "collection": "review"
     }
   }
 }
