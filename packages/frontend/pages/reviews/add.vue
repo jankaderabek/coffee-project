@@ -110,7 +110,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  reactive,
+  ref,
+  computed,
+} from '@nuxtjs/composition-api'
 import Multiselect from 'vue-multiselect'
 import {
   CoffeeInput,
@@ -179,13 +184,17 @@ export default defineComponent({
       } catch (e) {}
     }
 
+    const coffees = computed(() => {
+      return result.value?.coffees ?? []
+    })
+
     return {
       newCoffee,
       saveNewCoffee,
       createdCoffee,
       sendCoffeeLoading,
       sendCoffeeError,
-      coffees: result.value?.coffees ?? [],
+      coffees,
       newReview,
       saveNewReview,
     }
