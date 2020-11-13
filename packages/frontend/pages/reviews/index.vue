@@ -8,9 +8,7 @@
       class="mt-2"
     >
       <b-card-text>{{ review.comment }}</b-card-text>
-      <b-button :to="`/reviews/${review.id}`" variant="primary">
-        Detail
-      </b-button>
+      <b-button :to="`/reviews/${review.id}`" variant="primary"> Detail </b-button>
     </b-card>
   </b-card-group>
 </template>
