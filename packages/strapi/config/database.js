@@ -1,5 +1,5 @@
 module.exports = ({ env }) => ({
-  defaultConnection: 'default',
+  defaultConnection: env('DATABASE_CONNECTION', 'default'),
   connections: {
     default: {
       connector: 'bookshelf',
@@ -9,6 +9,15 @@ module.exports = ({ env }) => ({
       },
       options: {
         useNullAsDefault: true,
+      },
+    },
+    production: {
+      connector: 'mongoose',
+      settings: {
+        uri: env('DATABASE_URI'),
+      },
+      options: {
+        ssl: true,
       },
     },
   },
