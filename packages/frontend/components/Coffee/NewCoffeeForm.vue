@@ -58,10 +58,8 @@ export default defineComponent({
     const saveNewCoffee = async () => {
       let createdCoffee: CreatedCoffeeDetailFragment | null = null
 
-      try {
-        const result = await createCoffee({ input: { data: newCoffee } })
-        createdCoffee = result.data?.createCoffee?.coffee ?? null
-      } catch (e) {}
+      const result = await createCoffee({ input: { data: newCoffee } })
+      createdCoffee = result.data?.createCoffee?.coffee ?? null
 
       if (createdCoffee) {
         emit('input', createdCoffee)
