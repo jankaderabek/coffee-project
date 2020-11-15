@@ -3,6 +3,10 @@ name: ci
 on:
   push:
 
+defaults:
+  run:
+    working-directory: packages/frontend
+
 jobs:
   ci:
     runs-on: ${{ matrix.os }}
